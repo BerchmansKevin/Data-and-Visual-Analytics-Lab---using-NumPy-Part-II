@@ -1,0 +1,505 @@
+== `BERCHMANS KEVIN S`
+
+== Department of Data Science - Data and Visual Analytics Lab
+
+== `Red Wine Quality Data Analysis using NumPy Part-II`
+
+== Import necessary modules
+
+
++*In[1]:*+
+[source, ipython3]
+----
+import numpy as np
+----
+
+
++*In[2]:*+
+[source, ipython3]
+----
+wines = np.genfromtxt("winequality-red.csv", delimiter=";", skip_header=1)
+----
+
+
++*In[3]:*+
+[source, ipython3]
+----
+wines
+----
+
+
++*Out[3]:*+
+----array([[ 7.4  ,  0.7  ,  0.   , ...,  0.56 ,  9.4  ,  5.   ],
+       [ 7.8  ,  0.88 ,  0.   , ...,  0.68 ,  9.8  ,  5.   ],
+       [ 7.8  ,  0.76 ,  0.04 , ...,  0.65 ,  9.8  ,  5.   ],
+       ...,
+       [ 6.3  ,  0.51 ,  0.13 , ...,  0.75 , 11.   ,  6.   ],
+       [ 5.9  ,  0.645,  0.12 , ...,  0.71 , 10.2  ,  5.   ],
+       [ 6.   ,  0.31 ,  0.47 , ...,  0.66 , 11.   ,  6.   ]])----
+
+== NumPy Aggregation Methods
+
+== Find sum of all residual sugar values
+
+
++*In[4]:*+
+[source, ipython3]
+----
+wines[:,3].sum()
+----
+
+
++*Out[4]:*+
+----4059.55----
+
+== Find sums of every feature value. There are 12 features altogether
+
+
++*In[5]:*+
+[source, ipython3]
+----
+wines.sum(axis=0)
+----
+
+
++*Out[5]:*+
+----array([13303.1    ,   843.985  ,   433.29   ,  4059.55   ,   139.859  ,
+       25384.     , 74302.     ,  1593.79794,  5294.47   ,  1052.38   ,
+       16666.35   ,  9012.     ])----
+
+== Find sum of every row
+
+
++*In[6]:*+
+[source, ipython3]
+----
+wines.sum(axis=1)
+----
+
+
++*Out[6]:*+
+----array([ 74.5438 , 123.0548 ,  99.699  , ..., 100.48174, 105.21547,
+        92.49249])----
+
+== What is its size?
+
+
++*In[7]:*+
+[source, ipython3]
+----
+wines.sum(axis=1).shape
+----
+
+
++*Out[7]:*+
+----(1599,)----
+
+== What is the maximum residual sugar value in red wines data?
+
+
++*In[8]:*+
+[source, ipython3]
+----
+wines[:,3].astype('int')
+----
+
+
++*Out[8]:*+
+----array([1, 2, 2, ..., 2, 2, 3])----
+
+== find its maximum residual sugar value
+
+
++*In[9]:*+
+[source, ipython3]
+----
+wines[:,3].astype('int').max()
+----
+
+
++*Out[9]:*+
+----15----
+
+== What is the minimum residual sugar value in red wines data?
+
+
++*In[10]:*+
+[source, ipython3]
+----
+wines[:,3].astype('int').min()
+----
+
+
++*Out[10]:*+
+----0----
+
+== What is the average residual sugar value in red wines data?
+
+
++*In[11]:*+
+[source, ipython3]
+----
+wines[:,3].mean()
+----
+
+
++*Out[11]:*+
+----2.53880550343965----
+
+== What is 25 percentile residual sugar value?
+
+
++*In[12]:*+
+[source, ipython3]
+----
+np.percentile(wines[:,3], 25)
+----
+
+
++*Out[12]:*+
+----1.9----
+
+== What is 75 percentile residual sugar value?
+
+
++*In[13]:*+
+[source, ipython3]
+----
+np.percentile(wines[:,3], 75)
+----
+
+
++*Out[13]:*+
+----2.6----
+
+== Find the average of each feature value
+
+
++*In[14]:*+
+[source, ipython3]
+----
+wines.mean(axis=0)
+----
+
+
++*Out[14]:*+
+----array([ 8.31963727,  0.52782051,  0.27097561,  2.5388055 ,  0.08746654,
+       15.87492183, 46.46779237,  0.99674668,  3.3111132 ,  0.65814884,
+       10.42298311,  5.63602251])----
+
+== NumPy Array Comparisons
+
+== Show all wines with quality > 5
+
+
++*In[15]:*+
+[source, ipython3]
+----
+wines[:, -1] > 5
+----
+
+
++*Out[15]:*+
+----array([False, False, False, ...,  True, False,  True])----
+
+== Show all wines with quality > 7
+
+
++*In[16]:*+
+[source, ipython3]
+----
+wines[:, -1] > 7
+----
+
+
++*Out[16]:*+
+----array([False, False, False, ..., False, False, False])----
+
+== check if any wines value is True for the condition quality > 7
+
+
++*In[17]:*+
+[source, ipython3]
+----
+wines[0,-1] > 7
+----
+
+
++*Out[17]:*+
+----False----
+
+== Show first 3 rows where wine quality > 7, call it high_quality
+
+
++*In[18]:*+
+[source, ipython3]
+----
+high_quality = wines[:, -1] > 7
+----
+
+
++*In[19]:*+
+[source, ipython3]
+----
+high_quality
+----
+
+
++*Out[19]:*+
+----array([False, False, False, ..., False, False, False])----
+
+== Show only top 3 rows and all columns of high_quality wines data
+
+
++*In[20]:*+
+[source, ipython3]
+----
+wines[high_quality,:][:3,:]
+----
+
+
++*Out[20]:*+
+----array([[7.900e+00, 3.500e-01, 4.600e-01, 3.600e+00, 7.800e-02, 1.500e+01,
+        3.700e+01, 9.973e-01, 3.350e+00, 8.600e-01, 1.280e+01, 8.000e+00],
+       [1.030e+01, 3.200e-01, 4.500e-01, 6.400e+00, 7.300e-02, 5.000e+00,
+        1.300e+01, 9.976e-01, 3.230e+00, 8.200e-01, 1.260e+01, 8.000e+00],
+       [5.600e+00, 8.500e-01, 5.000e-02, 1.400e+00, 4.500e-02, 1.200e+01,
+        8.800e+01, 9.924e-01, 3.560e+00, 8.200e-01, 1.290e+01, 8.000e+00]])----
+
+== Show wines with a lot of alcohol > 10 and high wine quality > 7
+
+
++*In[21]:*+
+[source, ipython3]
+----
+high_quality_and_alcohol = (wines[:,-2] > 10) & (wines[:,-1] > 7)
+----
+
+== show only alcohol and wine quality columns
+
+
++*In[22]:*+
+[source, ipython3]
+----
+wines[high_quality_and_alcohol,10:]
+----
+
+
++*Out[22]:*+
+----array([[12.8,  8. ],
+       [12.6,  8. ],
+       [12.9,  8. ],
+       [13.4,  8. ],
+       [11.7,  8. ],
+       [11. ,  8. ],
+       [11. ,  8. ],
+       [14. ,  8. ],
+       [12.7,  8. ],
+       [12.5,  8. ],
+       [11.8,  8. ],
+       [13.1,  8. ],
+       [11.7,  8. ],
+       [14. ,  8. ],
+       [11.3,  8. ],
+       [11.4,  8. ]])----
+
+== Combining NumPy Arrays
+
+=== Combine red wine and white wine data
+
+== Open white wine dataset
+
+
++*In[23]:*+
+[source, ipython3]
+----
+white_wines = np.genfromtxt("winequality-white.csv", delimiter=";", skip_header=1) 
+----
+
+== Show size of white_wines
+
+
++*In[24]:*+
+[source, ipython3]
+----
+white_wines.shape
+----
+
+
++*Out[24]:*+
+----(4898, 12)----
+
+== combine wines and white_wines data frames using vstack and call it all_wines
+
+
++*In[25]:*+
+[source, ipython3]
+----
+all_wines = np.vstack((wines, white_wines))
+----
+
+
++*In[26]:*+
+[source, ipython3]
+----
+all_wines.shape
+----
+
+
++*Out[26]:*+
+----(6497, 12)----
+
+== Combine wines and white_wines data frames using concatenate method
+
+
++*In[27]:*+
+[source, ipython3]
+----
+data3 = np.concatenate((wines, white_wines), axis=0)
+----
+
+
++*In[28]:*+
+[source, ipython3]
+----
+data3.shape
+----
+
+
++*Out[28]:*+
+----(6497, 12)----
+
+== Matrix Operations and Reshape
+
+=== Find Transpose of wines and print its size
+
+
++*In[29]:*+
+[source, ipython3]
+----
+np.transpose(wines).shape
+----
+
+
++*Out[29]:*+
+----(12, 1599)----
+
+== Convert wines data into 1D array
+
+
++*In[30]:*+
+[source, ipython3]
+----
+wines.ravel()
+----
+
+
++*Out[30]:*+
+----array([ 7.4 ,  0.7 ,  0.  , ...,  0.66, 11.  ,  6.  ])----
+
+
++*In[31]:*+
+[source, ipython3]
+----
+wines.ravel().shape
+----
+
+
++*Out[31]:*+
+----(19188,)----
+
+== Reshape second row of wines into a 2-dimensional array with 2 rows and 6 columns
+
+
++*In[32]:*+
+[source, ipython3]
+----
+wines[1, :].reshape((2,6))
+----
+
+
++*Out[32]:*+
+----array([[ 7.8   ,  0.88  ,  0.    ,  2.6   ,  0.098 , 25.    ],
+       [67.    ,  0.9968,  3.2   ,  0.68  ,  9.8   ,  5.    ]])----
+
+== Sort alcohol column Ascending Order
+
+
++*In[33]:*+
+[source, ipython3]
+----
+sorted_alcohol = np.sort(wines[:, -2])
+----
+
+
++*In[34]:*+
+[source, ipython3]
+----
+sorted_alcohol
+----
+
+
++*Out[34]:*+
+----array([ 8.4,  8.4,  8.5, ..., 14. , 14. , 14.9])----
+
+== Make sorting to take place in-place
+
+
++*In[35]:*+
+[source, ipython3]
+----
+wines[:, -2].sort()
+----
+
+== Show top 10 rows
+
+
++*In[36]:*+
+[source, ipython3]
+----
+wines[:, -2]
+----
+
+
++*Out[36]:*+
+----array([ 8.4,  8.4,  8.5, ..., 14. , 14. , 14.9])----
+
+== Sort alcohol column Descending Order
+
+
++*In[37]:*+
+[source, ipython3]
+----
+sorted_alcohol_desc = np.sort(wines[:,-2]) [::-1]
+----
+
+
++*In[38]:*+
+[source, ipython3]
+----
+sorted_alcohol_desc
+----
+
+
++*Out[38]:*+
+----array([14.9, 14. , 14. , ...,  8.5,  8.4,  8.4])----
+
+== Will original data be modified?. Check top 10 rows
+
+
++*In[39]:*+
+[source, ipython3]
+----
+wines[:, -2]
+----
+
+
++*Out[39]:*+
+----array([ 8.4,  8.4,  8.5, ..., 14. , 14. , 14.9])----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
